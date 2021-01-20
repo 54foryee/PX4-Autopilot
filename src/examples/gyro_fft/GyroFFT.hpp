@@ -33,6 +33,7 @@
 
 #pragma once
 
+#include <lib/mathlib/math/filter/MedianFilter.hpp>
 #include <lib/matrix/matrix/math.hpp>
 #include <lib/perf/perf_counter.h>
 #include <px4_platform_common/defines.h>
@@ -52,6 +53,8 @@
 
 #include "arm_math.h"
 #include "arm_const_structs.h"
+
+using namespace time_literals;
 
 class GyroFFT : public ModuleBase<GyroFFT>, public ModuleParams, public px4::ScheduledWorkItem
 {
@@ -85,7 +88,8 @@ private:
 
 	uORB::Publication<sensor_gyro_fft_s> _sensor_gyro_fft_pub{ORB_ID(sensor_gyro_fft)};
 
-	uORB::Subscription _parameter_update_sub{ORB_ID(parameter_update)};
+	uORB::SubscriptionInterval _parameter_update_sub{ORB_ID(parameter_update), 1_s};
+
 	uORB::Subscription _sensor_selection_sub{ORB_ID(sensor_selection)};
 	uORB::Subscription _vehicle_imu_status_sub{ORB_ID(vehicle_imu_status)};
 
@@ -110,6 +114,8 @@ private:
 	int _fft_buffer_index[3] {};
 
 	unsigned _gyro_last_generation{0};
+
+	math::MedianFilter<float, 3> _median_filter[3] {};
 
 	sensor_gyro_fft_s _sensor_gyro_fft{};
 

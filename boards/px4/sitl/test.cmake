@@ -28,9 +28,11 @@ px4_add_board(
 		attitude_estimator_q
 		camera_feedback
 		commander
+		control_allocator
 		dataman
 		ekf2
 		events
+		flight_mode_manager
 		fw_att_control
 		fw_pos_control_l1
 		land_detector
@@ -59,6 +61,7 @@ px4_add_board(
 		dyn
 		esc_calib
 		led_control
+		#mft
 		mixer
 		motor_ramp
 		motor_test

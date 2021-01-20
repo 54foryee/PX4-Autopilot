@@ -90,6 +90,9 @@ stm32_boardinitialize(void)
 
 	stm32_configgpio(GPIO_CAN1_SILENT_S0);
 
+	stm32_configgpio(GPIO_LED_SAFETY);
+	stm32_configgpio(GPIO_BTN_SAFETY);
+
 	// Configure SPI all interfaces GPIO & enable power.
 	stm32_spiinitialize();
 }
@@ -122,6 +125,10 @@ stm32_boardinitialize(void)
 __EXPORT int board_app_initialize(uintptr_t arg)
 {
 	px4_platform_init();
+
+	/* Configure the HW based on the manifest */
+
+	px4_platform_configure();
 
 	return OK;
 }
